@@ -1,0 +1,181 @@
+Measurement,batch,Sample number,Temperature,Bottle Letter,subsample #,Tin ID,Dry Mass (g)
+Respiration,2,4,4,A,1,,0.1606
+Respiration,2,5,4,A,2,,0.1174
+Respiration,2,6,4,A,3,,0.1196
+Respiration,2,7,4,B,1,,0.1033
+Respiration,2,8,4,B,2,,0.0836
+Respiration,2,9,4,B,3,,0.1078
+Respiration,2,10,4,C,1,,0.1352
+Respiration,2,11,4,C,2,,0.1402
+Respiration,2,12,4,C,3,,0.1335
+Respiration,2,16,8,A,1,,0.1491
+Respiration,2,17,8,A,2,,0.1695
+Respiration,2,18,8,A,3,,0.1207
+Respiration,2,19,8,B,1,,0.2614
+Respiration,2,20,8,B,2,,0.1949
+Respiration,2,21,8,B,3,,0.2121
+Respiration,2,22,8,C,1,,0.2577
+Respiration,2,23,8,C,2,,0.2066
+Respiration,2,24,8,C,3,,0.2521
+Respiration,2,28,12,A,1,,0.2936
+Respiration,2,29,12,A,2,,0.2208
+Respiration,2,30,12,A,3,,0.2158
+Respiration,2,31,12,B,1,,0.3159
+Respiration,2,32,12,B,2,,0.2109
+Respiration,2,33,12,B,3,,0.1849
+Respiration,2,34,12,C,1,,0.1686
+Respiration,2,35,12,C,2,,0.1816
+Respiration,2,36,12,C,3,,0.1758
+Respiration,2,40,16,A,1,,0.1319
+Respiration,2,41,16,A,2,,0.1176
+Respiration,2,42,16,A,3,,0.1566
+Respiration,2,43,16,B,1,,0.1667
+Respiration,2,44,16,B,2,,0.3153
+Respiration,2,45,16,B,3,,0.1775
+Respiration,2,46,16,C,1,,0.1849
+Respiration,2,47,16,C,2,,0.1767
+Respiration,2,48,16,C,3,,0.1269
+Respiration,2,52,20,A,1,,0.2814
+Respiration,2,53,20,A,2,,0.1834
+Respiration,2,54,20,A,3,,0.1417
+Respiration,2,55,20,B,1,,0.1402
+Respiration,2,56,20,B,2,,0.2182
+Respiration,2,57,20,B,3,,0.1306
+Respiration,2,58,20,C,1,,0.1376
+Respiration,2,59,20,C,2,,0.245
+Respiration,2,60,20,C,3,,0.1228
+P uptake,2,4,4,A,1,,0.2623
+P uptake,2,5,4,A,2,,0.0489
+P uptake,2,6,4,A,3,,0.2433
+P uptake,2,7,4,B,1,,0.2099
+P uptake,2,8,4,B,2,,0.1107
+P uptake,2,9,4,B,3,,0.1688
+P uptake,2,10,4,C,1,,0.3566
+P uptake,2,11,4,C,2,,0.2589
+P uptake,2,12,4,C,3,,0.3045
+P uptake,2,16,8,A,1,,0.4014
+P uptake,2,17,8,A,2,,0.2949
+P uptake,2,18,8,A,3,,0.3993
+P uptake,2,19,8,B,1,,0.3439
+P uptake,2,20,8,B,2,,0.3257
+P uptake,2,21,8,B,3,,0.235
+P uptake,2,22,8,C,1,,0.2849
+P uptake,2,23,8,C,2,,0.2238
+P uptake,2,24,8,C,3,,0.2189
+P uptake,2,28,12,A,1,,0.2991
+P uptake,2,29,12,A,2,,0.4142
+P uptake,2,30,12,A,3,,0.4102
+P uptake,2,31,12,B,1,,0.4721
+P uptake,2,32,12,B,2,,0.3335
+P uptake,2,33,12,B,3,,0.2253
+P uptake,2,34,12,C,1,,0.2897
+P uptake,2,35,12,C,2,,0.2392
+P uptake,2,36,12,C,3,,0.3171
+P uptake,2,40,16,A,1,,0.2022
+P uptake,2,41,16,A,2,,0.1866
+P uptake,2,42,16,A,3,,0.2349
+P uptake,2,43,16,B,1,,0.2322
+P uptake,2,44,16,B,2,,0.2104
+P uptake,2,45,16,B,3,,0.4708
+P uptake,2,46,16,C,1,,0.2957
+P uptake,2,47,16,C,2,,0.2205
+P uptake,2,48,16,C,3,,0.2887
+P uptake,2,52,20,A,1,,0.2745
+P uptake,2,53,20,A,2,,0.3748
+P uptake,2,54,20,A,3,,0.3313
+P uptake,2,55,20,B,1,,0.1918
+P uptake,2,56,20,B,2,,0.2731
+P uptake,2,57,20,B,3,,0.2818
+P uptake,2,58,20,C,1,,0.2945
+P uptake,2,59,20,C,2,,0.2635
+P uptake,2,60,20,C,3,,0.255
+Respiration,3,4,4,A,1,,0.2018
+Respiration,3,5,4,A,2,,0.1572
+Respiration,3,6,4,A,3,,0.1009
+Respiration,3,7,4,B,1,,0.1241
+Respiration,3,8,4,B,2,,0.1075
+Respiration,3,9,4,B,3,,0.1078
+Respiration,3,10,4,C,1,,0.1531
+Respiration,3,11,4,C,2,,0.132
+Respiration,3,12,4,C,3,,0.0948
+Respiration,3,16,8,A,1,,0.09
+Respiration,3,17,8,A,2,,0.1325
+Respiration,3,18,8,A,3,,0.1577
+Respiration,3,19,8,B,1,,0.1176
+Respiration,3,20,8,B,2,,0.0875
+Respiration,3,21,8,B,3,,0.1222
+Respiration,3,22,8,C,1,,0.148
+Respiration,3,23,8,C,2,,0.0729
+Respiration,3,24,8,C,3,,0.1215
+Respiration,3,28,12,A,1,,0.1799
+Respiration,3,29,12,A,2,,0.0809
+Respiration,3,30,12,A,3,,0.1237
+Respiration,3,31,12,B,1,,0.1635
+Respiration,3,32,12,B,2,,0.1477
+Respiration,3,33,12,B,3,,0.139
+Respiration,3,34,12,C,1,,0.1814
+Respiration,3,35,12,C,2,,0.1438
+Respiration,3,36,12,C,3,,0.1001
+Respiration,3,40,16,A,1,,0.1241
+Respiration,3,41,16,A,2,,0.2203
+Respiration,3,42,16,A,3,,0.105
+Respiration,3,43,16,B,1,,0.1011
+Respiration,3,44,16,B,2,,0.1352
+Respiration,3,45,16,B,3,,0.154
+Respiration,3,46,16,C,1,,0.1607
+Respiration,3,47,16,C,2,,0.14
+Respiration,3,48,16,C,3,,0.0794
+Respiration,3,52,20,A,1,,
+Respiration,3,53,20,A,2,,
+Respiration,3,54,20,A,3,,
+Respiration,3,55,20,B,1,,
+Respiration,3,56,20,B,2,,
+Respiration,3,57,20,B,3,,
+Respiration,3,58,20,C,1,,
+Respiration,3,59,20,C,2,,
+Respiration,3,60,20,C,3,,
+P uptake,3,4,4,A,1,,0.1391
+P uptake,3,5,4,A,2,,0.1679
+P uptake,3,6,4,A,3,,0.2249
+P uptake,3,7,4,B,1,,0.1019
+P uptake,3,8,4,B,2,,0.1982
+P uptake,3,9,4,B,3,,0.1754
+P uptake,3,10,4,C,1,,0.1065
+P uptake,3,11,4,C,2,,0.1875
+P uptake,3,12,4,C,3,,0.1752
+P uptake,3,16,8,A,1,,0.2373
+P uptake,3,17,8,A,2,,0.1406
+P uptake,3,18,8,A,3,,0.2613
+P uptake,3,19,8,B,1,,0.1508
+P uptake,3,20,8,B,2,,0.1593
+P uptake,3,21,8,B,3,,0.2145
+P uptake,3,22,8,C,1,,0.1416
+P uptake,3,23,8,C,2,,0.1065
+P uptake,3,24,8,C,3,,0.0739
+P uptake,3,28,12,A,1,,0.2131
+P uptake,3,29,12,A,2,,0.267
+P uptake,3,30,12,A,3,,0.2051
+P uptake,3,31,12,B,1,,0.2587
+P uptake,3,32,12,B,2,,0.2395
+P uptake,3,33,12,B,3,,0.1954
+P uptake,3,34,12,C,1,,0.2333
+P uptake,3,35,12,C,2,,0.175
+P uptake,3,36,12,C,3,,0.1346
+P uptake,3,40,16,A,1,,0.2439
+P uptake,3,41,16,A,2,,0.1897
+P uptake,3,42,16,A,3,,0.2224
+P uptake,3,43,16,B,1,,0.1494
+P uptake,3,44,16,B,2,,0.1991
+P uptake,3,45,16,B,3,,0.1732
+P uptake,3,46,16,C,1,,
+P uptake,3,47,16,C,2,,
+P uptake,3,48,16,C,3,,
+P uptake,3,52,20,A,1,,
+P uptake,3,53,20,A,2,,
+P uptake,3,54,20,A,3,,
+P uptake,3,55,20,B,1,,
+P uptake,3,56,20,B,2,,
+P uptake,3,57,20,B,3,,
+P uptake,3,58,20,C,1,,
+P uptake,3,59,20,C,2,,
+P uptake,3,60,20,C,3,,

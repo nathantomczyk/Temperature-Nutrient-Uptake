@@ -1,0 +1,196 @@
+﻿This lab_uptake_respiraiton_temperature.txt file was generated on 2021-10-12 by Nathan Tomczyk
+
+
+GENERAL INFORMATION
+
+1. Title of Dataset: Temperature sensitivity of uptake and respiraiton measured on Rhododendron maximum leaves in the lab
+
+2. Author Information
+	A. Principal Investigator Contact Information
+		Name: Nathan Tomczyk
+		Institution: University of Georgia
+		Address: 140 E Green St. Athens, GA, United States 
+		Email: nathan.tomczyk25@uga.edu
+
+	B. Associate or Co-investigator Contact Information
+		Name: Amy Rosemond
+		Institution: University of Georgia
+		Address: 140 E Green St. Athens, GA, United States 
+		Email: rosemond@uga.edu
+
+
+
+3. Date of data collection (single date, range, approximate date) 2021-03-11 - 2021-03-18
+4. Geographic location of data collection <latitude, longiute, or city/region, State, Country, as appropriate>: 
+Coweeta Hydrologic Laboratory, Macon County, North Carolina, United States
+
+5. Information about funding sources that supported the collection of the data: 
+National Science Foundation grant number DEB-1655789
+University of Georgia, Odum School of Ecology, Small grants program
+
+SHARING/ACCESS INFORMATION
+
+1. Licenses/restrictions placed on the data: MIT license 
+
+2. Links to publications that cite or use the data: NA
+
+3. Links to other publicly accessible locations of the data: NA
+
+4. Links/relationships to ancillary data sets: NA
+
+5. Was data derived from another source? no
+
+
+6. Recommended citation for this dataset: 
+
+
+DATA & FILE OVERVIEW
+
+1. File List: 
+Lab_leaf_experiment_2021_10_12.R
+Lab_leaf_masses_spring2021.csv
+lab_respiration_spring2021.csv
+lab_uptake_spring2021.csv
+lab_uptake_srp_data.csv
+vial_volumes_lab_experiment.csv
+
+2. Relationship between files, if important: The R code uses the .csv files to run models and make figures
+
+3. Additional related data collected that was not included in the current data package: NA
+
+4. Are there multiple versions of the dataset? No
+
+
+
+METHODOLOGICAL INFORMATION
+
+1. Description of methods used for collection/generation of data: 
+We conditioned Rhododendron maximum litter for 114 days in mesh litterbags. We removed a subset of the bags on March 11, 2021 and returned them to the lab, where we cut the leaves into smaller fragments. We placed these fragments in 1-L bottles of aerated stream water, which we then placed in water baths at five different temperatures (4, 8, 12, 16, 20 oC). Each water bath had three bottles which we consider replicates. After we acclimated the microbial communities for 24 hours we removed leaf fragments from the bottles to measure either SRP uptake or respiration. We repeated this experiment (only the 4-16oC temperature treatments) on March 18, 2021 and pooled the results for analysis.  
+We used three subsamples from each replicate bottle to measure respiration rates. We filled scintillation vials with stream water at the appropriate treatment temperature, and measured the initial concentration of oxygen using a YSI 5100 Dissolved Oxygen Meter (YSI Inc, OH, USA). Then, we added several leaf fragments to the vial and secured the cap such that no air remained in the vial. We prepared three blanks (water but no leaves added) for each temperature treatment. We then returned the vials to the water bath to incubate for 2-7 hours, and gave the vials in colder temperatures more time to incubate to ensure meaningful changes in the concentration of dissolved oxygen occurred. After incubation, we recorded the final concentration of dissolved oxygen, removed the leaves, dried the leaves to a constant weight, and weighed them. We calculated respiration rates as the change in the mass of oxygen normalized to the weight of leaves and the time they were incubated, with a correction for the change in oxygen observed in the blanks. 
+Use also used three subsamples from each bottle to measure rates of SRP uptake. Several leaf fragments were added to 50 mL centrifuge tubes along with 40 mL of water that was spiked with concentrated SRP. Three blank were prepared for each temperature treatment. After 2-7 hours of incubation a subsample of the water was removed with a syringe and filtered through an AE grade glass fiber filter (Sterilitech, WA, USA), and frozen immediately. Samples were analyzed using an Alpkem Rapid Flow Analyzer 300 (Alpkem, College Station, Texas, USA). We retained leaf fragments, dried them to a constant weight, and weighed them. We calculated uptake rates as the difference in the mass of SRP between the blanks and matched subsamples, normalized to the mass of leaves and the incubation time.
+We estimate the activation energy (Ea) of both respiration and nutrient uptake using the Boltzmann-Arrhenius equation (equation 1), where the rate of the process (ri), is a function of the rate at a reference temperature (rref) of zero degrees kelvin, the Ea, the temperature in Kelvin (T) and the Boltzmann constant (8.61710-5 eV K-1). We fit our data to the linearized version of the Boltzmann-Arrhenius equation, by regressing the loge transformed process rates against the inverse Boltzmann temperature, and estimating the Ea based on the slope of this line (equation 2). 
+r_i=r_ref*e^((-Ea)/(k_B*T)), 				Eq. 1
+ln(r_i )=ln⁡(r_ref)+1/(k_B*T)*〖-E〗_a, 				Eq. 2
+We consider the bottles to be replicates, and use random effects to control for correlation between repeated measurements within each bottle, using the lme4 package (Bates et al. 2014). To test whether the Ea of respiration and uptake were significantly different from one another we tested a model that included all rates and a categorical variable indicating the type of rate (respiration or uptake) and test their interaction. A significant interaction term in this model indicates the Ea of respiration and uptake are significantly different. Finally, we averaged uptake and respiration rates at the level of the replicate bottle, converted elemental units to their molar equivalents, and take the molar ratio of C respired to P taken up, and test the effect of temperature on this ratio using a linear model with the loge transformed molar ratio as the response variable. 
+
+2. Methods for processing the data: 
+See .R file for details on data processing
+
+
+3. Instrument- or software-specific information needed to interpret the data: 
+R
+
+4. Standards and calibration information, if appropriate: 
+
+5. Environmental/experimental conditions: 
+
+
+6. Describe any quality-assurance procedures performed on the data: 
+One data point for SRP uptake was dropped based on visual inspection of the data. This is done in the code not the raw data
+
+7. People involved with sample collection, processing, analysis and/or submission: 
+Nathan Tomczyk, Amy Rosemond, Jon Benstead, and Erin Hotchkiss.
+
+DATA-SPECIFIC INFORMATION FOR: lab_leaf_masses_spring2021.csv
+
+1. Number of variables: 7
+
+
+2. Number of cases/rows: 180
+
+3. Variable List: 
+<list variable name(s), description(s), unit(s)and value labels as appropriate for each>
+Measuremnet, is the mass related to a measurment of respiration or phosphorus uptake, categorical variable ("Respiraiton" or  "P uptake")
+Batch, this experiment was run twice, batches are labeled (2 or 3)
+Sample number, identifier used for merging sample masses with other data.
+temperature, targeted temperature treatment in degrees celcius
+Bottle letter, letter to identify replicate bottles.
+Subsample, number to identify subsamples from bottles
+Dry Mass (g), mass of leaves used in incubaiton in units of grams
+
+4. Missing data codes: no missing data
+
+5. Specialized formats or other abbreviations used: 
+
+DATA-SPECIFIC INFORMATION FOR: lab_respiraiton_spring2021.csv
+
+1. Number of variables: 13
+
+2. Number of cases/rows: 108
+
+3. Variable List: 
+Sample number, identifier used to merge samples
+batch, this experiment was run twice, batches are labeled (2 or 3)
+date, date that the measurements were made, formated YYYY-MM-DD
+temperature, targeted temperature treatment in degrees celcius
+bottle, letter to identify replicate bottles or chambers without leaves "blank".
+subsample, number to identify subsamples from bottles
+start time, time of day that the incubation was started, format HH:MM
+start DO, concentraiton of dissolved oxygen in the water before the incubation was started, units are mg O2 L-1
+end time, time of day that the incubation was ended, format HH:MM
+end DO, concentraiton of dissolved oxygen in the water after the incubation was finished, units are mg O2 L-1
+time elapsed, ammount of time between the start and end of the incubation, format HH:MM
+measured_temperature, the temperature in degrees celcius during the incubation
+
+4. Missing data codes:  NA
+
+5. Specialized formats or other abbreviations used: NA
+
+DATA-SPECIFIC INFORMATION FOR: lab_uptake_srping2021.csv
+
+1. Number of variables: 8
+
+2. Number of cases/rows: 105
+
+3. Variable List: 
+Sample number, identifier used to merge samples
+batch, this experiment was run twice, batches are labeled (2 or 3)
+Temperature, targeted temperature treatment in degrees celcius
+Bottle, letter to identify replicate bottles or chambers without leaves "blank".
+subsample, number to identify subsamples from bottles
+Start Time, time of day that the incubation was started, format HH:MM
+End Time, time of day that the incubation was ended, format HH:MM
+measured_temperature, the temperature in degrees celcius during the incubation
+
+
+
+4. Missing data codes: NA
+
+
+5. Specialized formats or other abbreviations used: NA
+
+DATA-SPECIFIC INFORMATION FOR: lab_uptake_srp_data.csv
+
+1. Number of variables: 7
+
+2. Number of cases/rows: 105
+
+3. Variable List: 
+Sample number, identifier used to merge samples
+batch, this experiment was run twice, batches are labeled (2 or 3)
+date, date that the measurements were made, formated YYYY-MM-DD
+Temperature, targeted temperature treatment in degrees celcius
+Bottle Letter, letter to identify replicate bottles or chambers without leaves "blank".
+subsample, number to identify subsamples from bottles
+srp.ug.l, concentration of soluable reactive phosphorus in the water samples in units of ug SRP-P L-1
+
+
+4. Missing data codes: NA
+
+5. Specialized formats or other abbreviations used: NA
+
+DATA-SPECIFIC INFORMATION FOR: vial_volumes_lab_experiment.csv
+
+1. Number of variables: 4
+
+2. Number of cases/rows: 60
+
+3. Variable List: 
+Sample.number, identifier used to merge samples
+full.mass.g, mass of vial when it is full of water with no air (grams)
+empty.mass.g, mass of vial when it is empty (grams)
+vial.volumemml, volume of vial (millileters)
+
+4. Missing data codes: NA
+
+5. Specialized formats or other abbreviations used: NA

@@ -14,15 +14,15 @@ library(lmerTest)
 library(MuMIn)
 library(Rmisc)
 
-## Set working directory
-setwd("C:\\Users\\nt78066\\OneDrive - University of Georgia\\Documents\\Warming_uptake_stuff\\Lab_data\\")
+
+
 
 ############ loading data
-mass<-read.csv("Lab_leaf_masses_spring2021.csv")
+mass<-read.csv("./lab/Lab_leaf_masses_spring2021.csv")
 
-resp<-read.csv("Lab_respiration_spring2021.csv")
+resp<-read.csv("./lab/Lab_respiration_spring2021.csv")
 
-volumes<-read.csv("vial_volumes_lab_experiment.csv")
+volumes<-read.csv("./lab/vial_volumes_lab_experiment.csv")
 
 ##############################################################################################
 ######################## Resipration #########################################################
@@ -98,8 +98,8 @@ respiration.plot
 ##############################################################################################
 
 # load data
-uptake.times<-read.csv("Lab_uptake_spring2021.csv")
-srp<-read.csv("lab_uptake_srp_data.csv")
+uptake.times<-read.csv("./lab/Lab_uptake_spring2021.csv")
+srp<-read.csv("./lab/lab_uptake_srp_data.csv")
 
 
 ######### one outlier

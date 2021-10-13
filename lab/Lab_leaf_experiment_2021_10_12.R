@@ -2,7 +2,7 @@
 ### This code summarizes the results of a lab experiment where we measured uptake and respiraiton rates
 ### on conditioned leaf litter at different temperatures. We estimate the Ea of both uptake and
 ### respiraiton, and compare the molar ratios at which these two were used across temperatures. 
-
+##################################################################################
 
 ############ Load libraries 
 
@@ -13,6 +13,7 @@ library(lme4)
 library(lmerTest)
 library(MuMIn)
 library(Rmisc)
+library(cowplot)
 
 
 
@@ -236,8 +237,8 @@ stoich_plot
 
 ################ Plotting data
 
-tiff(filename="lab_experiment_data.tiff",units="in",res=800,width=8,height=16,compression="lzw")
-plot_grid(respiration.plot,uptake_plot,stoich_plot,labels="AUTO",cols=1,label_x=0.9,label_y=0.93,label_size = 20)
+tiff(filename="./figures/lab_experiment_data.tiff",units="in",res=800,width=8,height=16,compression="lzw")
+plot_grid(respiration.plot,uptake_plot,stoich_plot,labels="AUTO",ncol=1,label_x=0.9,label_y=0.93,label_size = 20)
 dev.off()
 
 #################

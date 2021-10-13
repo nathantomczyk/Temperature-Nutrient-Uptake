@@ -1,0 +1,132 @@
+﻿This METADATA_lab_uptake_concentration_temperature.txt file was generated on 2021-10-13 by Nathan Tomczyk
+
+
+GENERAL INFORMATION
+
+1. Title of Dataset: Temperature sensitivity of nutrient uptake at different concentrations 
+
+2. Author Information
+	A. Principal Investigator Contact Information
+		Name: Nathan Tomczyk
+		Institution: University of Georgia
+		Address: 140 E Green St. Athens, GA, United States 
+		Email: nathan.tomczyk25@uga.edu
+
+	B. Associate or Co-investigator Contact Information
+		Name: Amy Rosemond
+		Institution: University of Georgia
+		Address: 140 E Green St. Athens, GA, United States 
+		Email: rosemond@uga.edu
+
+
+
+3. Date of data collection (single date, range, approximate date) Summer 2019
+
+4. Geographic location of data collection <latitude, longiute, or city/region, State, Country, as appropriate>: 
+Coweeta Hydrologic Laboratory, Macon County, North Carolina, United States
+
+5. Information about funding sources that supported the collection of the data: 
+National Science Foundation grant number DEB-1655789
+Coweeta LTER, research experience for undergraduates program
+
+SHARING/ACCESS INFORMATION
+
+1. Licenses/restrictions placed on the data: MIT license 
+
+2. Links to publications that cite or use the data: NA
+
+3. Links to other publicly accessible locations of the data: NA
+
+4. Links/relationships to ancillary data sets: NA
+
+5. Was data derived from another source? no
+
+
+6. Recommended citation for this dataset: 
+
+
+DATA & FILE OVERVIEW
+
+1. File List: 
+Concentration_uptake_experiment.R
+Concentration_uptake_data.csv
+
+2. Relationship between files, if important: The R code uses the .csv files to run models and make figures
+
+3. Additional related data collected that was not included in the current data package: NA
+
+4. Are there multiple versions of the dataset? No
+
+
+
+METHODOLOGICAL INFORMATION
+
+1. Description of methods used for collection/generation of data: 
+We conducted a separate experiment to test whether the concentration of nutrients affected the temperature sensitivity of nutrient uptake. We incubated Acer rubrum leaves in a stream for approximately 30 days in the summer of 2019 and then returned the leaves to the lab. Several whole leaves were added to Nalgene bottles with 200mL water and incubated for approximately three hours. Leaves were incubated at 6 temperatures ranging from 4-21 oC and eight initial concentrations ranging from 11-228 µg/L SRP. After incubation, we removed a subsample of water with a syringe, filtered it, and froze it immediately. We analyzed samples for SRP using the ascorbic acid method (APHA 1995). Each temperature and concentration combination had two replicates and one blank that did not have leaves added. 
+We calculated rates of gross SRP uptake in the same manner described above and estimated the Ea for each temperature concentration. We evaluate whether concentration alters the temperature sensitivity of SRP uptake by fitting a linear model with the loge transformed uptake modeled as a function of the inverse Boltzmann temperature with an interacting effect of initial concentration, which was treated as a categorical variable. A significant interaction in the model indicates that there are significant differences among the Ea of SRP uptake at different initial concentrations. 
+
+
+2. Methods for processing the data: 
+See .R file for details on data processing
+
+
+3. Instrument- or software-specific information needed to interpret the data: 
+R
+
+4. Standards and calibration information, if appropriate: 
+
+5. Environmental/experimental conditions: 
+
+
+6. Describe any quality-assurance procedures performed on the data: 
+
+7. People involved with sample collection, processing, analysis and/or submission: 
+Nathan Tomczyk, Amy Rosemond, Jon Benstead, and Erin Hotchkiss,  Anna Kaz.
+
+
+DATA-SPECIFIC INFORMATION FOR: lab_leaf_masses_spring2021.csv
+
+1. Number of variables: 7
+
+
+2. Number of cases/rows: 180
+
+3. Variable List: 
+<list variable name(s), description(s), unit(s)and value labels as appropriate for each>
+Measuremnet, is the mass related to a measurment of respiration or phosphorus uptake, categorical variable ("Respiraiton" or  "P uptake")
+Batch, this experiment was run twice, batches are labeled (2 or 3)
+Sample number, identifier used for merging sample masses with other data.
+temperature, targeted temperature treatment in degrees celcius
+Bottle letter, letter to identify replicate bottles.
+Subsample, number to identify subsamples from bottles
+Dry Mass (g), mass of leaves used in incubaiton in units of grams
+
+4. Missing data codes: no missing data
+
+5. Specialized formats or other abbreviations used: 
+
+DATA-SPECIFIC INFORMATION FOR: Concentration_uptake_data.csv
+
+1. Number of variables: 12
+
+2. Number of cases/rows: 144
+
+3. Variable List: 
+bottle, idintifer of the bottle that was used to incubate leaves in
+sample, categorical variable ("control" or "final"), control had no leaves and final had leaves added
+temp.treatment, the temperature treatment in degrees celcius
+concentration.treatment, the inital concentration used in the treatment (goal concentration)
+start.time, the time, in decimal format that the experiment was started
+end.time, the time, in decimal format that the experiment was concluded
+time.elapsed, the differen between teh time the experiment was started and concluded in decimal format
+temperature.measured.c, the measured temperature during the experiment
+leaf_dry_mass_g, the dry mass of leaves used in the experiment, which was measured after the incubation
+dilution, the dilution used when measuring concentrations of SRP. 1 indicates no dilution, 2 incidcates a 50% dilution with deionized water
+PO4.ug.l, the concentraiton of PO4 in units of micrograms of PO4-P per L in the water sample. 
+
+
+
+4. Missing data codes:  NA
+
+5. Specialized formats or other abbreviations used: NA
+

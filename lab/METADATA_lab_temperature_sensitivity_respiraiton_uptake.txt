@@ -1,4 +1,4 @@
-﻿This lab_uptake_respiraiton_temperature.txt file was generated on 2021-10-12 by Nathan Tomczyk
+﻿This METADATA_lab_uptake_respiraiton_temperature.txt file was generated on 2021-10-12 by Nathan Tomczyk
 
 
 GENERAL INFORMATION

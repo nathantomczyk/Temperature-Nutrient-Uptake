@@ -113,6 +113,7 @@ uptake.lengths<-data.frame()
 #chem4[chem4$date==ymd("2021-01-26") & chem4$stream=="ref" & chem4$dist.from.eighty==60,"bg.corrected.srp"]<-NA
 #chem4[chem4$date==ymd("2021-01-26") & chem4$stream=="ref" & chem4$dist.from.eighty==60,"normalized.srp"]<-NA
 
+setwd("./figures/")
 
 for (i in 1:length(id)){
   s<-chem5[chem5$stream.date==id[i],]

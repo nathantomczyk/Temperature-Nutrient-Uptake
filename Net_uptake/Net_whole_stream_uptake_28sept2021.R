@@ -4,16 +4,14 @@ library(ggplot2)
 library(tidyverse)
 library(lubridate)
 library(reshape2)
-library("cowplot")
+library(cowplot)
+library(Rmisc)
 
 
-######## Read in data
-setwd("C:\\Users\\nt78066\\OneDrive - University of Georgia\\Documents\\Warming_uptake_stuff\\Budget_uptake_whole_stream\\")
-
-d<-read.csv("whole_stream_nutrients_master.csv")
-q<-read.csv("C:\\Users\\nt78066\\OneDrive - University of Georgia\\Documents\\Warming_uptake_stuff\\whole_stream_uptake\\crews_paireddischarge_all_2july2021_long.csv")
-q.diff<-read.csv("discharge_top_and_bottom.csv")
-widths<-read.csv("paired.wettedwidth.Master.csv")
+d<-read.csv("./Net_uptake/whole_stream_nutrients_master.csv")
+q<-read.csv("./Whole_stream_gross_uptake/crews_paireddischarge_all_23aug2021_long.csv")
+q.diff<-read.csv("./Net_uptake/discharge_top_and_bottom.csv")
+widths<-read.csv("./Net_uptake/paired.wettedwidth.Master.csv")
 
 # format dates and times
 d$sample.date<-ymd(as.character(d$sample.date))
@@ -32,12 +30,13 @@ for (i in 1:length(id)){
   s<-d[d$location.nutrient==id[i],]
   s$ignore.value<-"FALSE"
   mean.conc<-mean(s$original.concentration.ugL,na.rm=TRUE)
+
   sd.conc<-sd(s$original.concentration.ugL,na.rm=TRUE)
   
   s<-s[is.na(s$original.concentration.ugL)==FALSE,]
   
-  s[s$original.concentration.ugL>(mean.conc+2*sd.conc),"ignore.value"]<-TRUE
-  s[s$original.concentration.ugL<(mean.conc-2*sd.conc),"ignore.value"]<-TRUE
+  try(s[s$original.concentration.ugL>(mean.conc+2*sd.conc),"ignore.value"]<-TRUE)
+  try(s[s$original.concentration.ugL<(mean.conc-2*sd.conc),"ignore.value"]<-TRUE)
   
   
   d2<-rbind(d2,s)
@@ -73,11 +72,11 @@ for (i in 1:length(dates)){
   
   discharge<-q_nine_ref[q_nine_ref$date==dates[i],]
   
-  srp.change<-ns[ns$analyte=="SRP" & ns$stream.location=="flume","original.concentration.ugL"]-ns[ns$analyte=="SRP" & ns$stream.location=="seep","original.concentration.ugL"]
-  din.change<-ns[ns$analyte=="NH4" & ns$stream.location=="flume","original.concentration.ugL"]+
-    ns[ns$analyte=="NO3" & ns$stream.location=="flume","original.concentration.ugL"]-
+  srp.change<-ns[ns$analyte=="SRP" & ns$stream.location=="seep","original.concentration.ugL"]-ns[ns$analyte=="SRP" & ns$stream.location=="flume","original.concentration.ugL"]
+  din.change<-ns[ns$analyte=="NH4" & ns$stream.location=="seep","original.concentration.ugL"]+
     ns[ns$analyte=="NO3" & ns$stream.location=="seep","original.concentration.ugL"]-
-    ns[ns$analyte=="NH4" & ns$stream.location=="seep","original.concentration.ugL"]
+    ns[ns$analyte=="NO3" & ns$stream.location=="flume","original.concentration.ugL"]-
+    ns[ns$analyte=="NH4" & ns$stream.location=="flume","original.concentration.ugL"]
   
   concentration.changes$stream[i]<-"ws55"
   try(concentration.changes$din.change[i]<-din.change)
@@ -197,7 +196,7 @@ din.uptake<-ggplot(concentration.changes[complete.cases(concentration.changes),]
   xlab("Date")+
   theme(text =element_text(size=20))+theme(legend.position = c(0.1, 0.91))+
   scale_color_manual(values=c("firebrick2","steelblue3"),name="")+
-  geom_vline(xintercept=ymd("2019-04-01"),lty=2)
+  geom_vline(xintercept=ymd("2019-05-06"),lty=2)
   
 
 srp.uptake<-ggplot(concentration.changes[complete.cases(concentration.changes),],aes(x=ymd(date),y=uptake.rate.srp,color=stream))+geom_point()+
@@ -208,7 +207,7 @@ srp.uptake<-ggplot(concentration.changes[complete.cases(concentration.changes),]
   xlab("Date")+
   theme(text =element_text(size=20))+theme(legend.position = c(0.1, 0.91))+
   scale_color_manual(values=c("firebrick2","steelblue3"),name="")+
-  geom_vline(xintercept=ymd("2019-04-01"),lty=2)
+  geom_vline(xintercept=ymd("2019-05-06"),lty=2)
 
 
 #########################################################
@@ -232,7 +231,7 @@ summary(lm(difference.in.SRP.change~treatment,data=test))
 
 summary(lm(difference.in.DIN.change~treatment,data=test))
 
-library(Rmisc)
+
 
 srp.means<-summarySE(test,measurevar = "difference.in.SRP.change",groupvars = "treatment")
 din.means<-summarySE(test,measurevar = "difference.in.DIN.change",groupvars = "treatment")
@@ -254,6 +253,55 @@ din.plot<-ggplot(din.means,aes(x=treatment,y=-difference.in.DIN.change,fill=trea
   geom_errorbar(aes(ymin=-difference.in.DIN.change-se,ymax=-difference.in.DIN.change+se),width=0.00001)
 din.plot
 
+
 tiff(filename="Whole_stream_net_uptake_29sept2021.tiff",units="in",res=800,width=12,height=8,compression="lzw")
 plot_grid(srp.uptake,srp.plot,din.uptake,din.plot,rel_widths = c(2, 1),labels="AUTO",cols=2,label_x=0.9,label_y=0.93,label_size = 20)
 dev.off()
+
+
+
+#################### temperatures 
+
+temp<-read.csv("./Net_uptake/whole.stream.temps.csv")
+
+temp$date<-ymd(temp$date)
+temp$time<-hm(temp$time)
+
+levels(temp$stream)<-list(towr="towr",ws55="c55")
+
+temp.daily<-aggregate(temp~date+stream,temp,mean)
+
+temp.daily$treatment.year<-NA
+temp.daily[temp.daily$date<=ymd("2019-05-06") & temp.daily$date>=ymd("2018-05-06"),"treatment.year"]<-"reference.year"
+temp.daily[temp.daily$date<=ymd("2020-05-06") & temp.daily$date>=ymd("2019-05-06"),"treatment.year"]<-"treatment.year1"
+temp.daily[temp.daily$date<=ymd("2021-05-06") & temp.daily$date>=ymd("2020-05-06"),"treatment.year"]<-"treatment.year2"
+
+
+annual.temps<-aggregate(temp~stream+treatment.year,temp.daily,mean)
+
+concentration.changes<-concentration.changes[!is.na(concentration.changes$date),]
+concentration.changes$date<-ymd(concentration.changes$date)
+concentration.changes$treatment.year<-NA
+concentration.changes[concentration.changes$date<=ymd("2019-05-06") & concentration.changes$date>=ymd("2018-05-06"),"treatment.year"]<-"reference.year"
+concentration.changes[concentration.changes$date<=ymd("2020-05-06") & concentration.changes$date>=ymd("2019-05-06"),"treatment.year"]<-"treatment.year1"
+concentration.changes[concentration.changes$date<=ymd("2021-05-06") & concentration.changes$date>=ymd("2020-05-06"),"treatment.year"]<-"treatment.year2"
+
+annual.p.uptake<-aggregate(uptake.rate.srp~treatment.year+stream,concentration.changes,mean,na.rm=TRUE)
+annual.n.uptake<-aggregate(uptake.rate.din~treatment.year+stream,concentration.changes,mean,na.rm=TRUE)
+
+annual.data<-merge(annual.p.uptake,annual.n.uptake,by=c("treatment.year","stream"))
+annual.data2<-merge(annual.data,annual.temps,by=c("treatment.year","stream"))
+
+plot(annual.data2$temp,annual.data2$uptake.rate.srp)
+plot(annual.data2$temp,annual.data2$uptake.rate.din)
+
+anova(lm(uptake.rate.srp~temp,data=annual.data2))
+anova(lm(uptake.rate.din~temp,data=annual.data2))
+
+d<-merge(concentration.changes,temp.daily,by=c("date",'stream'))
+
+plot(d$temp,d$uptake.rate.srp)
+plot(d$temp,d$uptake.rate.din)
+
+summary(lm(uptake.rate.srp~temp,data=d))
+summary(lm(uptake.rate.srp~temp,data=d))

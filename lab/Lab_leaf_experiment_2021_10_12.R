@@ -67,8 +67,14 @@ resp3$log.rate<-log(resp3$DO.consumed.mg.g.dm) ### this drops one observation at
 
 resp3$bottle.id<-paste(resp3$batch,resp3$bottle,resp3$temperature,sep="-")
 
-####### Estimating Ea of repiraiton
-model.all.data<-lmer(log.rate~measured.boltz.temp+(1|bottle.id),data=resp3)
+summarized.resp<-aggregate(DO.consumed.mg.g.dm~measured.boltz.temp+bottle.id+batch+bottle+temperature,data=resp3,mean)
+summarized.resp$log.rate<-log(summarized.resp$DO.consumed.mg.g.dm)
+
+
+summarized.resp$centered.boltz.temp<-summarized.resp$measured.boltz.temp-1/(Boltz*(273+12))
+
+####### Estimating Ea of respiraiton
+model.all.data<-lm(log.rate~centered.boltz.temp+as.factor(batch),data=summarized.resp)
 anova(model.all.data)
 model.all.data.sum<-summary(model.all.data)
 r.squaredGLMM(model.all.data)
@@ -77,20 +83,17 @@ model.all.data.sum
 
 plot(model.all.data) # residuals look alright
 
-## line of best fit
-fit.data1<-data.frame(kt=seq(from=39.80249,to=42.04423,by=0.0001))
-fit.data1$y<-fit.data1$kt*model.all.data.sum$coefficients[2,1]+model.all.data.sum$coefficients[1,1]
 
 
-resp.summary<-summarySE(resp3,measurevar = "log.rate",groupvars = c("measured.boltz.temp","batch","bottle.id"),na.rm=TRUE)
-
-respiration.plot<-ggplot(resp.summary,aes(x=measured.boltz.temp,y=log.rate))+
-  geom_line(data=fit.data1,aes(x=kt,y=y),size=2,color="blue")+
+respiration.plot<-ggplot(summarized.resp,aes(x=centered.boltz.temp,y=log.rate))+
+  geom_smooth(method="lm",se=FALSE,size=2)+
   geom_point(size=3)+
-  theme_classic()+theme(text = element_text(size=20))+geom_errorbar(aes(ymin=log.rate-se,ymax=log.rate+se),width=0.01)+
-  xlab("Inverse Temperature 1/kT")+
-  ylab(expression("ln(Respiration rate ("*"mg"~O[2]~"hr"^-1~"g"^-1*"))"))
-  #geom_line(data=fit.data1,aes(x=kt,y=y),size=2,color="black")+
+  theme_classic()+theme(text = element_text(size=20))+
+  #xlab(expression("Inverse Temperature (1/kT - 1/kT"[0]*")"))+
+  xlab("")+
+  ylab(expression("ln(Respiration rate ("*"mg"~O[2]~"hr"^-1~"g"^-1*"))"))+
+  xlim(-1.13,1.23)+
+  annotate("text",-0.8,-4.428718,label=expression(italic(Ea)*" = 1.02 "*italic(e)*"V"),size=8)
 
 respiration.plot
 
@@ -138,45 +141,52 @@ uptake.data.3$measured.boltz.temp<-1/(Boltz*(273+uptake.data.3$measured_temperat
 
 
 ## summarizing data for plot
-uptake.summary<-summarySE(uptake.data.3,measurevar = "log.rate",groupvars = c("measured.boltz.temp","batch","Bottle.Letter.x"),na.rm=TRUE)
 
 uptake.data.3$bottle.id<-paste(uptake.data.3$Temperature.x,uptake.data.3$Bottle.Letter,uptake.data.3$batch,sep="-")
 
+
+uptake.summary<-aggregate(srp.uptake.ug.srp.g.hr~measured.boltz.temp+batch+bottle.id+Bottle.Letter+Temperature,data=uptake.data.3,mean)
+uptake.summary$log.rate<-log(uptake.summary$srp.uptake.ug.srp.g.hr)
+
+uptake.summary$centered.boltz.temp<-uptake.summary$measured.boltz.temp-1/(Boltz*(273+12))
+
 ## Estimting Ea of SRP uptake
-uptake.model<-lmer(log.rate~measured.boltz.temp+(1|bottle.id),data=uptake.data.3,REML = TRUE)
+uptake.model<-lm(log.rate~centered.boltz.temp+batch,data=uptake.summary)
 uptake.model.sum<-summary(uptake.model)
-r.squaredGLMM(uptake.model)
 uptake.model.sum
+anova(uptake.model)
 plot(uptake.model) # residuals look alright 
 
-fit.data4<-data.frame(kt=seq(from=39.52777,to=41.92,by=0.0001))
-fit.data4$y<-fit.data4$kt*uptake.model.sum$coefficients[2,1]+uptake.model.sum$coefficients[1,1]
 
-#position_dodge(width=0.1)
-
-uptake_plot<-ggplot(uptake.summary[uptake.summary$batch!=1,],aes(x=measured.boltz.temp,y=log.rate))+
-  geom_line(data=fit.data4,aes(x=kt,y=y),size=2,color="blue")+
-  geom_point(size=2,position=position_dodge(width = .5))+theme_classic()+theme(text=element_text(size=20))+
-  geom_errorbar(aes(ymin=log.rate-se,ymax=log.rate+se),position=position_dodge(width = .5),width=0.0001)+
-  xlab("Inverse Temperature 1/kT")+
-  ylab(expression("ln(SRP uptake rate ("*mu*g~"hr"^-1~"g"^-1*"))"))
-  
+uptake_plot<-ggplot(uptake.summary,aes(x=centered.boltz.temp,y=log.rate))+
+  #geom_line(data=fit.data4,aes(x=kt,y=y),size=2,color="blue")+
+  geom_smooth(method="lm",se=FALSE,size=2)+
+  geom_point(size=2)+theme_classic()+theme(text=element_text(size=20))+
+  #xlab(expression("Inverse Temperature (1/kT - 1/kT"[0]*")"))+
+  xlab("")+
+  ylab(expression("ln(SRP uptake rate ("*mu*g~"hr"^-1~"g"^-1*"))"))+
+  xlim(-1.13,1.23)+
+  scale_y_continuous(breaks=c(1,0))+
+  annotate("text",-0.8,-0.5320472,label=expression(italic(Ea)*" = 0.48 "*italic(e)*"V"),size=8)
 uptake_plot
+
+
+
+nnotate("text",0.04,20,label=paste("R2 = ",round(spl$r.squared,2)),size=6)
 
 ################################################ Are the slopes actually different???
 
-uptake_data_short<-data.frame(boltzman.temp=uptake.data.3$measured.boltz.temp,batch=uptake.data.3$batch,
-                              temp.treatment=uptake.data.3$Temperature.x,letter=uptake.data.3$Bottle.Letter,
-                              rate=uptake.data.3$log.rate,measurement="uptake")
-resp_data_short<-data.frame(boltzman.temp=resp3$measured.boltz.temp,batch=resp3$batch,temp.treatment=resp3$temperature,
-                            letter=resp3$Bottle.Letter,rate=resp3$log.rate,measurement="respiration")
+uptake_data_short<-data.frame(boltzman.temp=uptake.summary$measured.boltz.temp,rate=uptake.summary$log.rate,
+                              measurement="uptake",batch=uptake.summary$batch)
+resp_data_short<-data.frame(boltzman.temp=summarized.resp$measured.boltz.temp,rate=summarized.resp$log.rate
+                            ,measurement="respiration",batch=summarized.resp$batch)
 
 slope.test.data<-rbind(uptake_data_short,resp_data_short)
 slope.test.data$measurement<-as.factor(slope.test.data$measurement)
 
 ## are the slopes different
 
-difference.model<-lm(rate~boltzman.temp*measurement,data=slope.test.data)
+difference.model<-lm(rate~boltzman.temp*measurement+as.factor(batch),data=slope.test.data)
 anova(difference.model)
 difference.model.sum<-summary(difference.model)
 difference.model.sum
@@ -185,59 +195,71 @@ r.squaredGLMM(difference.model)
 
 
 ###################### looking at temperature effect on molar ratios
-uptake_data_short<-data.frame(boltzman.temp=uptake.data.3$measured.boltz.temp,batch=uptake.data.3$batch,
-                              temp.treatment=uptake.data.3$Temperature.x,letter=uptake.data.3$Bottle.Letter,
-                              rate=uptake.data.3$srp.uptake.ug.srp.g.hr,measurement="uptake",actual.temp=uptake.data.3$measured_temperature)
-resp_data_short<-data.frame(boltzman.temp=resp3$measured.boltz.temp,batch=resp3$batch,temp.treatment=resp3$temperature,
-                            letter=resp3$Bottle.Letter,rate=resp3$DO.consumed.mg.g.dm,measurement="respiration")
+uptake_data_short<-data.frame(batch=uptake.summary$batch,
+                              rate=uptake.summary$srp.uptake.ug.srp.g.hr,measurement="uptake",
+                              letter=uptake.summary$Bottle.Letter,cat.temp=uptake.summary$Temperature)
+resp_data_short<-data.frame(boltzman.temp=summarized.resp$measured.boltz.temp,batch=summarized.resp$batch,
+                            rate=summarized.resp$DO.consumed.mg.g.dm,measurement="respiration",
+                            letter=summarized.resp$bottle,cat.temp=summarized.resp$temperature)
 
 
 
-resp_data_short$resp.rate.molar<-resp_data_short$rate/32/1000 ## converting to mols of C hr-1 g-1
+resp_data_short$resp.rate.molar<-resp_data_short$rate/32*1.2 ## converting to mmols of C hr-1 g-1 1.2 is respirtory quotient from Berggen et al 2012
 
-uptake_data_short$uptake.rate.molar<-uptake_data_short$rate/1000/1000/31 ## converting to mols of P hr-1 g-1
+uptake_data_short$uptake.rate.molar<-uptake_data_short$rate/1000/31 ## converting to mmols of P hr-1 g-1
 
-uptake.short.summary<-summarySE(uptake_data_short,measurevar = "uptake.rate.molar",groupvars=c("batch","temp.treatment","letter"))
-resp.short.summary<-summarySE(resp_data_short,measurevar = "resp.rate.molar",groupvars=c("batch","temp.treatment","letter"))
 
-stoich.data<-merge(uptake.short.summary,resp.short.summary,by=c("batch","temp.treatment","letter"))
+stoich.data<-merge(resp_data_short,uptake_data_short,by=c("batch","cat.temp","letter"))
 
 stoich.data$use.ratio<-stoich.data$resp.rate.molar/stoich.data$uptake.rate.molar
 
-temps<-aggregate(actual.temp~letter+temp.treatment+batch,data=uptake_data_short,mean)
+#temps<-aggregate(actual.temp~letter+temp.treatment+batch,data=uptake_data_short,mean)
 
-stoich.data.2<-merge(stoich.data,temps,by=c("letter","temp.treatment","batch"))
+#stoich.data.2<-merge(stoich.data,temps,by=c("letter","temp.treatment","batch"))
 
 
-stoich.model<-lmer(log(use.ratio)~actual.temp+(1|batch),data=stoich.data.2)
+stoich.model<-lm(log(use.ratio)~boltzman.temp+batch,data=stoich.data)
 anova(stoich.model)
 stoich.mod.sum<-summary(stoich.model)
-r.squaredGLMM(stoich.model)
+stoich.mod.sum
 
-stoich.model2<-lmer(use.ratio~actual.temp+(1|batch),data=stoich.data.2)
-anova(stoich.model2)
-stoich.mod.sum2<-summary(stoich.model2)
-r.squaredGLMM(stoich.model2)
+stoich.data$log.ratio<-log(stoich.data$use.ratio)
 
+stoich.data$centered.botlz.temp<-stoich.data$boltzman.temp-1/((273+12)*Boltz)
 
-fit.1<-data.frame(temp=seq(from=4,to=20,by=0.1))
-fit.1$y<-exp(fit.1$temp*stoich.mod.sum$coefficients[2,1]+stoich.mod.sum$coefficients[1,1])
-
-
-
-stoich_plot<-ggplot(stoich.data.2[stoich.data.2$batch!=1,],aes(x=actual.temp,y=use.ratio))+geom_point(size=2)+
-  scale_y_log10()+
+stoich_plot<-ggplot(stoich.data,aes(x=centered.botlz.temp,y=log.ratio))+geom_point(size=2)+
   theme_classic()+
-  geom_line(data=fit.1,aes(x=temp,y=y),color="blue",size=2)+
+  geom_smooth(method="lm",se=FALSE,size=2)+
   theme(text=element_text(size=20))+
-  xlab(expression("Temperature "^o*"C"))+
-  ylab("C:P respiration to uptake ratio")
+  xlab(expression("Inverse Temperature (1/kT - 1/kT"[0]*")"))+
+  ylab("ln(C:P respiration to uptake)")+
+  xlim(-1.13,1.23)+
+  scale_y_continuous(breaks=c(5,4,3))+
+  annotate("text",-0.8,2.974578,label=expression(italic(Ea)*" = 0.54 "*italic(e)*"V"),size=8)
 stoich_plot
+
+
+stoich.data$untransformed.temp<-stoich.data$boltzman.temp**-1/Boltz-273
+stoich.model<-lm(use.ratio~untransformed.temp+batch,data=stoich.data)
+summary(stoich.model)
+anova(stoich.model)
 ########################
+tiff(filename="./figures/resp_data.tiff",units="in",res=800,width=10,height=6,compression="lzw")
+respiration.plot
+dev.off()
+
+tiff(filename="./figures/p_uptake_data.tiff",units="in",res=800,width=10,height=6,compression="lzw")
+uptake_plot
+dev.off()
+
+tiff(filename="./figures/stoich_data.tiff",units="in",res=800,width=10,height=6,compression="lzw")
+stoich_plot
+dev.off()
+
 
 ################ Plotting data
 
-tiff(filename="./figures/lab_experiment_data.tiff",units="in",res=800,width=8,height=16,compression="lzw")
+tiff(filename="./figures/lab_experiment_data_feb2022.tiff",units="in",res=800,width=8,height=16,compression="lzw")
 plot_grid(respiration.plot,uptake_plot,stoich_plot,labels="AUTO",ncol=1,label_x=0.9,label_y=0.93,label_size = 20)
 dev.off()
 
